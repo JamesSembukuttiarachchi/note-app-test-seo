@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { PlusCircle, BookOpen, Edit3, Trash2, Save, X } from 'lucide-react'
 import { v4 as uuidv4 } from 'uuid'
+import { Helmet } from 'react-helmet';
 
 interface Note {
   id: string;
@@ -75,7 +76,7 @@ function App() {
 
     const updatedNote: Note = {
       ...selectedNote,
-      title: editTitle.trim() || 'Untitled',
+      title: editTitle.trim() || 'Untitled Note',
       content: editContent,
       tags: editTags.split(',').map(tag => tag.trim()).filter(tag => tag),
       updatedAt: new Date()
@@ -99,14 +100,19 @@ function App() {
 
   return (
     <div className="min-h-screen w-full bg-gray-50 flex flex-col">
+      <Helmet>
+        <title>My Online Notebook - Notes, Diary, and More</title>
+        <meta name="description" content="Your personal online notebook to keep notes, diary entries, and organize your thoughts. Create and manage your notes easily." />
+        <meta name="keywords" content="notebook, note, diary, online notebook, personal diary, note taking" />
+      </Helmet>
       {/* Header */}
       <header className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-lg">
         <div className="px-4 lg:px-6 py-4">
           <div className="flex items-center gap-3 lg:gap-4">
-            <BookOpen className="text-white flex-shrink-0" size={32} />
+            <BookOpen className="text-white flex-shrink-0" size={32} alt="Notebook App" />
             <div>
-              <h1 className="text-xl lg:text-2xl font-bold">My Notebook</h1>
-              <p className="text-indigo-100 text-xs lg:text-sm">Organize your thoughts and ideas</p>
+              <h1 className="text-xl lg:text-2xl font-bold">My Notebook - Your Online Diary</h1>
+              <p className="text-indigo-100 text-xs lg:text-sm">Organize your thoughts and ideas in your personal online notebook</p>
             </div>
           </div>
         </div>
@@ -122,19 +128,19 @@ function App() {
               className="w-full flex items-center gap-2 bg-indigo-500 text-white px-4 py-3 rounded-lg font-semibold hover:bg-indigo-600 transition-all transform hover:-translate-y-0.5 shadow-md hover:shadow-lg"
             >
               <PlusCircle size={20} />
-              New Note
+              Create New Note
             </button>
           </div>
           
           <div className="flex-1 overflow-y-auto px-4 pb-4">
             {notes.length === 0 ? (
               <p className="text-center text-gray-500 italic mt-8">
-                No notes yet. Create your first note!
+                No notes yet. Create your first note in your online notebook!
               </p>
             ) : (
               <div className="space-y-2">
                 {notes.map(note => (
-                  <div 
+                  <article
                     key={note.id}
                     className={`p-4 border rounded-lg cursor-pointer transition-all hover:shadow-md ${
                       selectedNote?.id === note.id 
@@ -144,9 +150,9 @@ function App() {
                     onClick={() => setSelectedNote(note)}
                   >
                     <div className="flex justify-between items-start mb-2">
-                      <h3 className="font-semibold text-gray-900 truncate flex-1 pr-2">
+                      <h2 className="font-semibold text-gray-900 truncate flex-1 pr-2">
                         {note.title}
-                      </h3>
+                      </h2>
                       <button 
                         className="text-red-500 hover:text-red-700 hover:bg-red-50 p-1 rounded transition-colors"
                         onClick={(e) => {
@@ -183,7 +189,7 @@ function App() {
                         </div>
                       )}
                     </div>
-                  </div>
+                  </article>
                 ))}
               </div>
             )}
@@ -203,7 +209,7 @@ function App() {
                       className="flex items-center gap-2 bg-green-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-600 transition-colors"
                     >
                       <Save size={20} />
-                      Save
+                      Save Note
                     </button>
                     <button 
                       onClick={cancelEdit}
@@ -219,7 +225,7 @@ function App() {
                     className="flex items-center gap-2 bg-indigo-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-indigo-600 transition-colors"
                   >
                     <Edit3 size={20} />
-                    Edit
+                    Edit Note
                   </button>
                 )}
               </div>
@@ -250,9 +256,9 @@ function App() {
                     />
                   </div>
                 ) : (
-                  <div className="h-full overflow-y-auto p-4 lg:p-8">
+                  <article className="h-full overflow-y-auto p-4 lg:p-8">
                     <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4 leading-tight">
-                      {selectedNote.title}
+                      {selectedNote.title} - My Online Notebook
                     </h1>
                     <div className="flex flex-col lg:flex-row gap-2 lg:gap-6 mb-4 text-sm text-gray-600 pb-4 border-b border-gray-200">
                       <span>Created: {selectedNote.createdAt.toLocaleDateString()}</span>
@@ -277,15 +283,15 @@ function App() {
                         <p key={index} className="min-h-[1.5rem]">{line}</p>
                       ))}
                     </div>
-                  </div>
+                  </article>
                 )}
               </div>
             </div>
           ) : (
             <div className="h-full flex flex-col items-center justify-center text-gray-500">
-              <BookOpen size={64} className="mb-4 opacity-50" />
-              <h2 className="text-xl font-semibold mb-2 text-gray-600">Welcome to Your Notebook</h2>
-              <p className="text-center">Select a note from the sidebar or create a new one to get started.</p>
+              <BookOpen size={64} className="mb-4 opacity-50" alt="Open Book - Notebook" />
+              <h2 className="text-xl font-semibold mb-2 text-gray-600">Welcome to Your Notebook - Start Your Diary Today!</h2>
+              <p className="text-center">Select a note from the sidebar or create a new one to get started with your personal notebook and diary.</p>
             </div>
           )}
         </main>
